@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/db";
+import { sendBookingConfirmation } from "@/lib/email";
 import Stripe from "stripe";
 
 export async function POST(request: NextRequest) {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       const bookingId = session.metadata?.bookingId;
 
       if (bookingId) {
-        await prisma.booking.update({
+        const booking = await prisma.booking.update({
           where: { id: bookingId },
           data: {
             status: "confirmed",
@@ -38,7 +39,23 @@ export async function POST(request: NextRequest) {
             stripePaymentId: session.payment_intent as string,
             stripeSessionId: session.id,
           },
+          include: { property: true },
         });
+
+        try {
+          await sendBookingConfirmation({
+            guestName: booking.guestName,
+            guestEmail: booking.guestEmail,
+            propertyName: booking.property.name,
+            checkIn: booking.checkIn,
+            checkOut: booking.checkOut,
+            guests: booking.guests,
+            totalPrice: booking.totalPrice,
+            bookingId: booking.id,
+          });
+        } catch (emailError) {
+          console.error("Failed to send confirmation email:", emailError);
+        }
       }
       break;
     }
