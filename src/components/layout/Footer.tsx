@@ -21,20 +21,23 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Kontakt</h4>
             <ul className="space-y-3 text-gray-400 text-sm">
+              {/* ── DEINE ADRESSE ── */}
               <li className="flex items-center gap-2">
                 <MapPin size={16} className="text-primary-light shrink-0" />
-                <span>Musterstraße 1, 12345 Musterstadt</span>
+                <span>Deine Straße, PLZ Ort</span>
               </li>
+              {/* ── DEINE TELEFONNUMMER ── */}
               <li className="flex items-center gap-2">
                 <Phone size={16} className="text-primary-light shrink-0" />
-                <a href="tel:+491234567890" className="hover:text-white transition-colors">
-                  +49 123 456 7890
+                <a href="tel:+49XXXXXXXXXX" className="hover:text-white transition-colors">
+                  +49 XXX XXX XXXX
                 </a>
               </li>
+              {/* ── DEINE E-MAIL ── */}
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-primary-light shrink-0" />
-                <a href="mailto:info@thb-appartements.de" className="hover:text-white transition-colors">
-                  info@thb-appartements.de
+                <a href="mailto:deine@email.de" className="hover:text-white transition-colors">
+                  deine@email.de
                 </a>
               </li>
             </ul>

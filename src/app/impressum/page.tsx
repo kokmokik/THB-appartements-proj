@@ -15,28 +15,31 @@ export default function ImpressumPage() {
       <div className="prose prose-gray max-w-none space-y-6 text-foreground">
         <section>
           <h2 className="text-xl font-semibold mb-2">Angaben gemäß § 5 TMG</h2>
+          {/* ── ERSETZE MIT DEINEN ECHTEN ANGABEN ── */}
           <p>
             THB Appartements<br />
-            Musterstraße 1<br />
-            12345 Musterstadt<br />
+            Deine Straße und Hausnummer<br />
+            PLZ Ort<br />
             Deutschland
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-semibold mb-2">Kontakt</h2>
+          {/* ── ERSETZE MIT DEINER ECHTEN TELEFONNUMMER UND E-MAIL ── */}
           <p>
-            Telefon: +49 123 456 7890<br />
-            E-Mail: info@thb-appartements.de
+            Telefon: +49 XXX XXX XXXX<br />
+            E-Mail: deine@email.de
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-semibold mb-2">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+          {/* ── ERSETZE MIT DEINEM VOLLEN NAMEN UND ADRESSE ── */}
           <p>
-            [Name des Verantwortlichen]<br />
-            Musterstraße 1<br />
-            12345 Musterstadt
+            Vorname Nachname<br />
+            Deine Straße und Hausnummer<br />
+            PLZ Ort
           </p>
         </section>
 

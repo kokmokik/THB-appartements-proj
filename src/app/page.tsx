@@ -5,6 +5,19 @@ import PropertyCard from "@/components/property/PropertyCard";
 import { prisma } from "@/lib/db";
 import { MapPin, Star, Phone } from "lucide-react";
 
+// ─── YOUR REAL REVIEWS ──────────────────────────────────────────────────────
+// To add reviews, create a const below and add a Testimonials section.
+// Example:
+//
+// const REVIEWS = [
+//   { name: "Max M.", stars: 5, text: "Sehr schönes Zimmer, sehr empfehlenswert!" },
+//   { name: "Anna K.", stars: 5, text: "Tolles Apartment, top Lage!" },
+// ];
+//
+// Then add a <section> with the reviews in the JSX below (copy the pattern
+// from the other sections). Ask Claude to add it when you have real reviews.
+// ────────────────────────────────────────────────────────────────────────────
+
 export default async function Home() {
   const properties = await prisma.property.findMany({
     where: { active: true },
@@ -98,43 +111,6 @@ export default async function Home() {
                 Wir sind jederzeit für Sie da und sorgen dafür, dass Ihr Aufenthalt perfekt wird.
               </p>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-              Das sagen unsere Gäste
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Maria S.",
-                text: "Ein wunderbarer Aufenthalt! Das Apartment war sauber, gemütlich und perfekt ausgestattet. Wir kommen gerne wieder!",
-              },
-              {
-                name: "Thomas K.",
-                text: "Hervorragende Lage und freundlicher Service. Das Zimmer hat unsere Erwartungen übertroffen. Sehr empfehlenswert!",
-              },
-              {
-                name: "Familie Weber",
-                text: "Das Familien-Apartment war ideal für uns. Die Kinder hatten genug Platz und die Küche war bestens ausgestattet.",
-              },
-            ].map((testimonial) => (
-              <div key={testimonial.name} className="bg-white rounded-xl p-6 border border-border">
-                <div className="flex gap-1 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} className="fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-muted text-sm mb-4 italic">&ldquo;{testimonial.text}&rdquo;</p>
-                <p className="font-semibold text-sm">{testimonial.name}</p>
-              </div>
-            ))}
           </div>
         </Container>
       </section>
