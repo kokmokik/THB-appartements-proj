@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Container from "@/components/ui/Container";
 import BookingForm from "@/components/booking/BookingForm";
 import { prisma } from "@/lib/db";
 
@@ -25,21 +24,21 @@ export default async function BookingPage({ params }: Props) {
   if (!property) notFound();
 
   return (
-    <Container className="py-12 md:py-20 max-w-4xl">
-      <h1 className="text-3xl md:text-4xl font-bold mb-2" style={{ fontFamily: "var(--font-playfair)" }}>
-        {property.name} buchen
-      </h1>
-      <p className="text-muted mb-8">
-        Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen.
-      </p>
+    <div className="min-h-screen bg-[#0a0a0a]">
+      <div className="container mx-auto px-4 py-12 md:py-20 max-w-4xl">
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{property.name} buchen</h1>
+        <p className="text-white/50 mb-10">
+          Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen.
+        </p>
 
-      <BookingForm
-        propertyId={property.id}
-        propertySlug={property.slug}
-        propertyName={property.name}
-        pricePerNight={property.pricePerNight}
-        maxGuests={property.maxGuests}
-      />
-    </Container>
+        <BookingForm
+          propertyId={property.id}
+          propertySlug={property.slug}
+          propertyName={property.name}
+          pricePerNight={property.pricePerNight}
+          maxGuests={property.maxGuests}
+        />
+      </div>
+    </div>
   );
 }

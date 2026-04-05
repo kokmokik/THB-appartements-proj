@@ -50,8 +50,8 @@ export default function AmenityList({ amenities }: { amenities: string[] }) {
         const Icon = AMENITY_ICONS[amenity] || Briefcase;
         const label = AMENITY_LABELS[amenity] || amenity;
         return (
-          <div key={amenity} className="flex items-center gap-2 text-sm text-foreground">
-            <Icon size={18} className="text-primary shrink-0" />
+          <div key={amenity} className="flex items-center gap-2 text-sm text-white/70">
+            <Icon size={18} className="text-white/40 shrink-0" />
             <span>{label}</span>
           </div>
         );

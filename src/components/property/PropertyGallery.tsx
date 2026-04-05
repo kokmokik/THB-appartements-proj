@@ -40,7 +40,7 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
               key={i}
               onClick={() => setSelected(i)}
               className={`relative shrink-0 w-20 h-20 md:w-full md:h-24 rounded-lg overflow-hidden border-2 transition-colors ${
-                i === selected ? "border-primary" : "border-transparent"
+                i === selected ? "border-white/60" : "border-transparent opacity-60 hover:opacity-100"
               }`}
             >
               <Image
@@ -60,19 +60,19 @@ export default function PropertyGallery({ images, name }: PropertyGalleryProps) 
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
           <button
             onClick={() => setLightbox(false)}
-            className="absolute top-4 right-4 text-white hover:text-primary-light z-10"
+            className="absolute top-4 right-4 text-white/80 hover:text-white z-10"
           >
             <X size={32} />
           </button>
           <button
             onClick={() => setSelected((s) => (s > 0 ? s - 1 : images.length - 1))}
-            className="absolute left-4 text-white hover:text-primary-light z-10"
+            className="absolute left-4 text-white/80 hover:text-white z-10"
           >
             <ChevronLeft size={40} />
           </button>
           <button
             onClick={() => setSelected((s) => (s < images.length - 1 ? s + 1 : 0))}
-            className="absolute right-4 text-white hover:text-primary-light z-10"
+            className="absolute right-4 text-white/80 hover:text-white z-10"
           >
             <ChevronRight size={40} />
           </button>

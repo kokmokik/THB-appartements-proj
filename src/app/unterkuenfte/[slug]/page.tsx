@@ -1,9 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
-import Badge from "@/components/ui/Badge";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import AmenityList from "@/components/property/AmenityList";
 import { prisma } from "@/lib/db";
@@ -18,10 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const property = await prisma.property.findUnique({ where: { slug } });
   if (!property) return { title: "Nicht gefunden" };
-  return {
-    title: property.name,
-    description: property.shortDesc,
-  };
+  return { title: property.name, description: property.shortDesc };
 }
 
 export async function generateStaticParams() {
@@ -42,71 +36,67 @@ export default async function PropertyDetailPage({ params }: Props) {
   const amenities: string[] = JSON.parse(property.amenities);
 
   return (
-    <Container className="py-12 md:py-20">
-      {/* Gallery */}
-      <PropertyGallery images={images} name={property.name} />
+    <div className="min-h-screen bg-[#0a0a0a]">
+      <div className="container mx-auto px-4 py-12 md:py-20">
+        <PropertyGallery images={images} name={property.name} />
 
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main content */}
-        <div className="lg:col-span-2 space-y-8">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <Badge variant={property.type === "apartment" ? "info" : "default"}>
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main content */}
+          <div className="lg:col-span-2 space-y-8">
+            <div>
+              <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-white/10 border border-white/20 text-white/80 mb-3">
                 {property.type === "apartment" ? "Apartment" : "Zimmer"}
-              </Badge>
+              </span>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">{property.name}</h1>
+              <div className="flex flex-wrap items-center gap-6 text-white/50 text-sm mb-6">
+                <span className="flex items-center gap-2">
+                  <Users size={16} /> Bis zu {property.maxGuests} Gäste
+                </span>
+                <span className="flex items-center gap-2">
+                  <BedDouble size={16} /> {property.bedrooms} Schlafzimmer
+                </span>
+                <span className="flex items-center gap-2">
+                  <Bath size={16} /> {property.bathrooms} Badezimmer
+                </span>
+                <span className="flex items-center gap-2">
+                  <Ruler size={16} /> {property.size} m²
+                </span>
+              </div>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-              {property.name}
-            </h1>
-            <div className="flex flex-wrap items-center gap-6 text-muted mb-6">
-              <span className="flex items-center gap-2">
-                <Users size={18} /> Bis zu {property.maxGuests} Gäste
-              </span>
-              <span className="flex items-center gap-2">
-                <BedDouble size={18} /> {property.bedrooms} Schlafzimmer
-              </span>
-              <span className="flex items-center gap-2">
-                <Bath size={18} /> {property.bathrooms} Badezimmer
-              </span>
-              <span className="flex items-center gap-2">
-                <Ruler size={18} /> {property.size} m&sup2;
-              </span>
+
+            <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
+              <h2 className="text-lg font-semibold text-white mb-3">Beschreibung</h2>
+              <p className="text-white/60 leading-relaxed">{property.description}</p>
+            </div>
+
+            <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
+              <h2 className="text-lg font-semibold text-white mb-4">Ausstattung</h2>
+              <AmenityList amenities={amenities} />
             </div>
           </div>
 
-          {/* Description */}
+          {/* Booking sidebar */}
           <div>
-            <h2 className="text-xl font-semibold mb-3">Beschreibung</h2>
-            <p className="text-muted leading-relaxed">{property.description}</p>
-          </div>
+            <div className="sticky top-6 bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
+              <div className="text-3xl font-bold text-white mb-1">
+                {formatCurrency(property.pricePerNight)}
+              </div>
+              <p className="text-white/40 text-sm mb-6">pro Nacht</p>
 
-          {/* Amenities */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Ausstattung</h2>
-            <AmenityList amenities={amenities} />
-          </div>
-        </div>
-
-        {/* Sidebar - Booking card */}
-        <div>
-          <div className="sticky top-24 bg-white rounded-xl border border-border p-6 shadow-sm">
-            <div className="text-3xl font-bold text-primary mb-1">
-              {formatCurrency(property.pricePerNight)}
-            </div>
-            <p className="text-muted text-sm mb-6">pro Nacht</p>
-
-            <Link href={`/buchen/${property.slug}`}>
-              <Button className="w-full" size="lg">
+              <Link
+                href={`/buchen/${property.slug}`}
+                className="block w-full text-center py-3.5 rounded-xl bg-white text-[#0a0a0a] font-semibold hover:bg-white/90 transition-all"
+              >
                 Jetzt buchen
-              </Button>
-            </Link>
+              </Link>
 
-            <p className="text-xs text-muted text-center mt-3">
-              Kostenlose Stornierung bis 48 Stunden vor Anreise
-            </p>
+              <p className="text-xs text-white/30 text-center mt-3">
+                Kostenlose Stornierung bis 48 Stunden vor Anreise
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
