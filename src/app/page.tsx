@@ -1,23 +1,13 @@
 import Link from "next/link";
-import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
-import PropertyCard from "@/components/property/PropertyCard";
-import LampHero from "@/components/layout/LampHero";
+import Image from "next/image";
 import { prisma } from "@/lib/db";
-import { MapPin, Star, Phone } from "lucide-react";
-
-// ─── YOUR REAL REVIEWS ──────────────────────────────────────────────────────
-// To add reviews, create a const below and add a Testimonials section.
-// Example:
-//
-// const REVIEWS = [
-//   { name: "Max M.", stars: 5, text: "Sehr schönes Zimmer, sehr empfehlenswert!" },
-//   { name: "Anna K.", stars: 5, text: "Tolles Apartment, top Lage!" },
-// ];
-//
-// Then add a <section> with the reviews in the JSX below (copy the pattern
-// from the other sections). Ask Claude to add it when you have real reviews.
-// ────────────────────────────────────────────────────────────────────────────
+import { Users, BedDouble, Ruler } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
+import HeroSection from "@/components/layout/HeroSection";
+import FeaturesSection from "@/components/layout/FeaturesSection";
+import ProofSection from "@/components/layout/ProofSection";
+import ContactSection from "@/components/layout/ContactSection";
+import FAQSection from "@/components/layout/FAQSection";
 
 export default async function Home() {
   const properties = await prisma.property.findMany({
@@ -26,96 +16,83 @@ export default async function Home() {
   });
 
   return (
-    <>
-      {/* Hero */}
-      <LampHero />
+    <div className="bg-[#0a0a0a]">
+      <HeroSection />
+      <FeaturesSection />
 
-      {/* Properties Overview */}
-      <section className="py-16 md:py-24">
-        <Container>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-              Unsere Unterkünfte
-            </h2>
-            <p className="text-muted text-lg max-w-2xl mx-auto">
+      {/* Properties */}
+      <section className="py-24 bg-[#1a1a1a] relative">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Unsere Unterkünfte</h2>
+            <p className="text-white/60 text-lg max-w-2xl mx-auto">
               Wählen Sie aus unseren 3 Zimmern und 2 Apartments die perfekte Unterkunft für Ihren Aufenthalt.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {properties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                slug={property.slug}
-                name={property.name}
-                type={property.type}
-                shortDesc={property.shortDesc}
-                thumbnail={property.thumbnail}
-                pricePerNight={property.pricePerNight}
-                maxGuests={property.maxGuests}
-                bedrooms={property.bedrooms}
-                size={property.size}
-              />
+              <Link key={property.id} href={`/unterkuenfte/${property.slug}`} className="group">
+                <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl overflow-hidden hover:bg-white/[0.05] hover:border-white/[0.15] transition-all duration-200">
+                  <div className="relative h-56 overflow-hidden">
+                    <Image
+                      src={property.thumbnail}
+                      alt={property.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-white/10 backdrop-blur-sm border border-white/20 text-white/90">
+                        {property.type === "apartment" ? "Apartment" : "Zimmer"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-white/90 transition-colors">
+                      {property.name}
+                    </h3>
+                    <p className="text-white/50 text-sm mb-4 line-clamp-2">{property.shortDesc}</p>
+                    <div className="flex items-center gap-4 text-xs text-white/40 mb-4">
+                      <span className="flex items-center gap-1">
+                        <Users size={13} /> {property.maxGuests} Gäste
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <BedDouble size={13} /> {property.bedrooms} Schlafzimmer
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Ruler size={13} /> {property.size} m²
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-bold text-white">
+                        {formatCurrency(property.pricePerNight)}
+                        <span className="text-sm font-normal text-white/40"> / Nacht</span>
+                      </span>
+                      <span className="text-xs text-white/50 group-hover:text-white/80 transition-colors">
+                        Jetzt buchen →
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
-        </Container>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/unterkuenfte"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/[0.05] border border-white/[0.15] text-white/80 text-sm font-medium hover:bg-white/[0.08] transition-all hover:-translate-y-0.5"
+            >
+              Alle Unterkünfte ansehen
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* Why Us */}
-      <section className="py-16 bg-accent/50">
-        <Container>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-              Warum THB Appartements?
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="text-primary" size={28} />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Beste Lage</h3>
-              <p className="text-muted text-sm">
-                Zentral gelegen mit guter Anbindung an öffentliche Verkehrsmittel und Sehenswürdigkeiten.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="text-primary" size={28} />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Höchster Komfort</h3>
-              <p className="text-muted text-sm">
-                Modern eingerichtete Unterkünfte mit allem, was Sie für einen angenehmen Aufenthalt benötigen.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Phone className="text-primary" size={28} />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Persönlicher Service</h3>
-              <p className="text-muted text-sm">
-                Wir sind jederzeit für Sie da und sorgen dafür, dass Ihr Aufenthalt perfekt wird.
-              </p>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* CTA */}
-      <section id="kontakt" className="py-16 bg-primary text-white">
-        <Container className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-            Bereit für Ihren Aufenthalt?
-          </h2>
-          <p className="text-lg text-primary-light mb-8 max-w-xl mx-auto">
-            Buchen Sie jetzt Ihre Unterkunft und freuen Sie sich auf einen unvergesslichen Aufenthalt.
-          </p>
-          <Link href="/unterkuenfte">
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
-              Jetzt buchen
-            </Button>
-          </Link>
-        </Container>
-      </section>
-    </>
+      <ProofSection />
+      <ContactSection />
+      <FAQSection />
+    </div>
   );
 }
