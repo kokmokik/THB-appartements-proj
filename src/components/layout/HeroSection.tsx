@@ -64,7 +64,7 @@ function fadeUpProps(i: number) {
 
 export default function HeroSection() {
   return (
-    <div className="relative min-h-[calc(100vh-3.5rem)] w-full flex items-center justify-center overflow-hidden bg-[#1a1a1a]">
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#1a1a1a]">
       <div className="absolute inset-0 bg-gradient-to-br from-[#3a2a5a]/[0.15] via-transparent to-[#5a3a2a]/[0.15] blur-3xl" />
 
       <div className="absolute inset-0 overflow-hidden">
