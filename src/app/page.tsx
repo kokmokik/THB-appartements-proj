@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import PropertyCard from "@/components/property/PropertyCard";
+import LampHero from "@/components/layout/LampHero";
 import { prisma } from "@/lib/db";
 import { MapPin, Star, Phone } from "lucide-react";
 
@@ -27,23 +28,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-secondary-dark to-secondary text-white py-24 md:py-36">
-        <div className="absolute inset-0 bg-black/20" />
-        <Container className="relative text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6" style={{ fontFamily: "var(--font-playfair)" }}>
-            Willkommen bei THB Appartements
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Gemütliche Zimmer und Apartments für Ihren perfekten Aufenthalt.
-            Entspannen Sie sich und fühlen Sie sich wie zu Hause.
-          </p>
-          <Link href="/unterkuenfte">
-            <Button size="lg" className="text-lg">
-              Unterkünfte entdecken
-            </Button>
-          </Link>
-        </Container>
-      </section>
+      <LampHero />
 
       {/* Properties Overview */}
       <section className="py-16 md:py-24">
