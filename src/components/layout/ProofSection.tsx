@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: "5★", label: "Durchschnittsbewertung" },
   { value: "3+", label: "Zimmer & Apartments" },
   { value: "100%", label: "Online buchbar" },
   { value: "24/7", label: "Erreichbar" },

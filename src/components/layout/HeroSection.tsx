@@ -132,12 +132,12 @@ export default function HeroSection() {
             >
               Unterkünfte entdecken
             </Link>
-            <Link
-              href="/#kontakt"
+            <a
+              href="#kontakt"
               className="px-8 py-3.5 rounded-full bg-white/[0.05] border border-white/[0.15] text-white/80 font-medium text-sm hover:bg-white/[0.08] transition-all hover:-translate-y-0.5"
             >
               Kontakt aufnehmen
-            </Link>
+            </a>
           </motion.div>
         </div>
       </div>
