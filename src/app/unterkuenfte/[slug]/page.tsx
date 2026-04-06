@@ -38,6 +38,14 @@ export default async function PropertyDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-4 py-12 md:py-20">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+          >
+            ← Startseite
+          </Link>
+        </div>
         <PropertyGallery images={images} name={property.name} />
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">

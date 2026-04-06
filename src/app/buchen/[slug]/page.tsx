@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import BookingForm from "@/components/booking/BookingForm";
 import { prisma } from "@/lib/db";
@@ -26,6 +27,14 @@ export default async function BookingPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-4xl">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+          >
+            ← Startseite
+          </Link>
+        </div>
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{property.name} buchen</h1>
         <p className="text-white/50 mb-10">
           Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen.

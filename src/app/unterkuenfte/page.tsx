@@ -75,6 +75,14 @@ export default async function PropertiesPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+          >
+            ← Startseite
+          </Link>
+        </div>
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Unsere Unterkünfte</h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">

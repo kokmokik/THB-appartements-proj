@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung",
@@ -8,6 +9,14 @@ export default function DatenschutzPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-3xl">
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+          >
+            ← Startseite
+          </Link>
+        </div>
         <h1 className="text-3xl font-bold text-white mb-10">Datenschutzerklärung</h1>
 
         <div className="space-y-6">

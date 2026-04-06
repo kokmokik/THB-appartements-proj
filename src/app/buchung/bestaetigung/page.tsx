@@ -74,6 +74,14 @@ export default async function ConfirmationPage({ searchParams }: Props) {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-2xl">
+        <div className="mb-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+          >
+            ← Startseite
+          </Link>
+        </div>
         <div className="text-center mb-10">
           <CheckCircle className="mx-auto text-green-400 mb-4" size={56} />
           <h1 className="text-3xl font-bold text-white mb-2">Vielen Dank für Ihre Buchung!</h1>
