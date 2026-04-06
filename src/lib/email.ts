@@ -1,7 +1,9 @@
 import { Resend } from "resend";
 import { formatDate, formatCurrency, calculateNights } from "./utils";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 interface BookingEmailData {
   guestName: string;
@@ -164,7 +166,7 @@ export async function sendBookingConfirmation(data: BookingEmailData) {
 </html>
   `.trim();
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: process.env.RESEND_FROM_EMAIL!,
     to: data.guestEmail,
     subject: `Buchungsbestätigung – ${data.propertyName}`,

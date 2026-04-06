@@ -2,9 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { DayPicker, DateRange } from "react-day-picker";
-import { de } from "react-day-picker/locale";
-import { addMonths, isBefore, startOfDay } from "date-fns";
+import { addMonths, startOfDay } from "date-fns";
+import {
+  CalendarDate,
+  getLocalTimeZone,
+} from "@internationalized/date";
+import type { RangeValue, DateValue } from "react-aria-components";
+import { RangeCalendar } from "@/components/ui/calendar-rac";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Spinner from "@/components/ui/Spinner";
@@ -12,6 +16,14 @@ import { formatCurrency, calculateNights } from "@/lib/utils";
 import { createBooking } from "@/actions/bookings";
 import { getBlockedDatesForProperty } from "@/actions/availability";
 import { Minus, Plus } from "lucide-react";
+
+function toCalendarDate(date: Date): CalendarDate {
+  return new CalendarDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+}
+
+function toJsDate(date: DateValue): Date {
+  return date.toDate(getLocalTimeZone());
+}
 
 interface BookingFormProps {
   propertyId: string;
@@ -29,7 +41,7 @@ export default function BookingForm({
   maxGuests,
 }: BookingFormProps) {
   const router = useRouter();
-  const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [dateRange, setDateRange] = useState<RangeValue<DateValue> | null>(null);
   const [guests, setGuests] = useState(1);
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
@@ -52,8 +64,8 @@ export default function BookingForm({
   }, [propertyId]);
 
   const nights =
-    dateRange?.from && dateRange?.to
-      ? calculateNights(dateRange.from, dateRange.to)
+    dateRange?.start && dateRange?.end
+      ? calculateNights(toJsDate(dateRange.start), toJsDate(dateRange.end))
       : 0;
   const totalPrice = nights * pricePerNight;
 
@@ -61,7 +73,7 @@ export default function BookingForm({
     e.preventDefault();
     setError("");
 
-    if (!dateRange?.from || !dateRange?.to) {
+    if (!dateRange?.start || !dateRange?.end) {
       setError("Bitte wählen Sie An- und Abreisedatum.");
       return;
     }
@@ -75,8 +87,8 @@ export default function BookingForm({
 
     const result = await createBooking({
       propertyId,
-      checkIn: dateRange.from.toISOString(),
-      checkOut: dateRange.to.toISOString(),
+      checkIn: toJsDate(dateRange.start).toISOString(),
+      checkOut: toJsDate(dateRange.end).toISOString(),
       guests,
       guestName,
       guestEmail,
@@ -97,19 +109,23 @@ export default function BookingForm({
       {/* Date Picker */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">Reisedaten wählen</h2>
-        <div className="flex justify-center">
-          <DayPicker
-            mode="range"
-            selected={dateRange}
-            onSelect={setDateRange}
-            locale={de}
-            disabled={[
-              { before: today },
-              { after: maxDate },
-              ...blockedDates.map((d) => d),
-            ]}
-            numberOfMonths={2}
-            className="border border-white/[0.08] rounded-xl p-4 bg-white/[0.03] text-white [&_.rdp-day_button:hover]:bg-white/10 [&_.rdp-day_button]:text-white/80 [&_.rdp-day--disabled_.rdp-day_button]:text-white/20"
+        <div className="flex justify-center overflow-x-auto">
+          <RangeCalendar
+            value={dateRange}
+            onChange={setDateRange}
+            minValue={toCalendarDate(today)}
+            maxValue={toCalendarDate(maxDate)}
+            isDateUnavailable={(date) =>
+              blockedDates.some(
+                (d) =>
+                  d.getFullYear() === date.year &&
+                  d.getMonth() + 1 === date.month &&
+                  d.getDate() === date.day,
+              )
+            }
+            visibleDuration={{ months: 2 }}
+            pageBehavior="visible"
+            className="border border-white/[0.08] rounded-xl p-4 bg-white/[0.03]"
           />
         </div>
       </div>
