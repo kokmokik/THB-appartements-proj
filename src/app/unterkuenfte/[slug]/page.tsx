@@ -36,7 +36,7 @@ export default async function PropertyDetailPage({ params }: Props) {
   const amenities: string[] = JSON.parse(property.amenities);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12 md:py-20">
         <div className="mb-6">
           <Link
@@ -93,7 +93,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
               <Link
                 href={`/buchen/${property.slug}`}
-                className="block w-full text-center py-3.5 rounded-xl bg-white text-[#0a0a0a] font-semibold hover:bg-white/90 transition-all"
+                className="block w-full text-center py-3.5 rounded-xl bg-white text-background font-semibold hover:bg-white/90 transition-all"
               >
                 Jetzt buchen
               </Link>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function DatenschutzPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-3xl">
         <div className="mb-8">
           <Link

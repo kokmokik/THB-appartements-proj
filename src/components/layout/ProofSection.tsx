@@ -10,7 +10,7 @@ const stats = [
 
 export default function ProofSection() {
   return (
-    <section className="py-24 bg-[#0a0a0a] relative">
+    <section className="py-24 bg-background relative">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

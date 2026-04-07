@@ -223,7 +223,7 @@ export default function BookingForm({
       <Button
         type="submit"
         size="lg"
-        className="w-full !bg-white !text-[#0a0a0a] hover:!bg-white/90 font-semibold"
+        className="w-full !bg-white !text-background hover:!bg-white/90 font-semibold"
         disabled={loading || nights === 0}
       >
         {loading ? (

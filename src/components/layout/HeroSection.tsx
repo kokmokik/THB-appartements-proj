@@ -64,8 +64,8 @@ function fadeUpProps(i: number) {
 
 export default function HeroSection() {
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#1a1a1a]">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a2a5a]/[0.15] via-transparent to-[#5a3a2a]/[0.15] blur-3xl" />
+    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-card">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1b5e20]/[0.15] via-transparent to-[#2e7d32]/[0.15] blur-3xl" />
 
       <div className="absolute inset-0 overflow-hidden">
         <ElegantShape
@@ -73,7 +73,7 @@ export default function HeroSection() {
           width={600}
           height={140}
           rotate={12}
-          gradient="from-[#5a3a7a]/[0.25]"
+          gradient="from-[#2e7d32]/[0.25]"
           className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
         />
         <ElegantShape
@@ -81,7 +81,7 @@ export default function HeroSection() {
           width={500}
           height={120}
           rotate={-15}
-          gradient="from-[#7a4a3a]/[0.25]"
+          gradient="from-[#4caf50]/[0.25]"
           className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
         />
         <ElegantShape
@@ -89,7 +89,7 @@ export default function HeroSection() {
           width={300}
           height={80}
           rotate={-8}
-          gradient="from-[#4a3a6a]/[0.25]"
+          gradient="from-[#1b5e20]/[0.25]"
           className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
         />
       </div>
@@ -100,7 +100,7 @@ export default function HeroSection() {
             {...fadeUpProps(0)}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
           >
-            <Circle className="h-2 w-2 fill-[#7a5a4a]/80" />
+            <Circle className="h-2 w-2 fill-[#c9950a]/80" />
             <span className="text-sm text-white/60 tracking-wide">THB Appartements</span>
           </motion.div>
 
@@ -110,7 +110,7 @@ export default function HeroSection() {
                 Ihr perfekter
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#6a4a7a] via-white/90 to-[#7a5a4a]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c9950a] via-[#e8c96a] to-[#a37808]">
                 Aufenthalt wartet
               </span>
             </h1>
@@ -128,7 +128,7 @@ export default function HeroSection() {
           >
             <Link
               href="/unterkuenfte"
-              className="px-8 py-3.5 rounded-full bg-white text-[#1a1a1a] font-semibold text-sm hover:bg-white/90 transition-all shadow-lg hover:shadow-white/20 hover:-translate-y-0.5"
+              className="px-8 py-3.5 rounded-full bg-white text-card font-semibold text-sm hover:bg-white/90 transition-all shadow-lg hover:shadow-white/20 hover:-translate-y-0.5"
             >
               Unterkünfte entdecken
             </Link>
@@ -142,7 +142,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-[#1a1a1a]/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1c2a1f] via-transparent to-[#1c2a1f]/80 pointer-events-none" />
     </div>
   );
 }

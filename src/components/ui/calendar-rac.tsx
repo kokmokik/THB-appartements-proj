@@ -65,17 +65,17 @@ const CalendarGridComponent = ({ isRange = false }: { isRange?: boolean }) => {
               "data-[disabled]:pointer-events-none data-[unavailable]:pointer-events-none",
               "data-[focus-visible]:z-10",
               "data-[hovered]:bg-white/10 data-[hovered]:text-white",
-              "data-[selected]:bg-white data-[selected]:text-[#0a0a0a]",
+              "data-[selected]:bg-white data-[selected]:text-background",
               "data-[unavailable]:line-through data-[disabled]:opacity-20 data-[unavailable]:opacity-20 data-[outside-month]:opacity-30",
               "data-[focus-visible]:outline data-[focus-visible]:outline-2 data-[focus-visible]:outline-white/30",
               isRange &&
-                "data-[selected]:rounded-none data-[selection-end]:rounded-e-lg data-[selection-start]:rounded-s-lg data-[selected]:bg-white/15 data-[selected]:text-white data-[selection-end]:[&:not([data-hovered])]:bg-white data-[selection-start]:[&:not([data-hovered])]:bg-white data-[selection-end]:[&:not([data-hovered])]:text-[#0a0a0a] data-[selection-start]:[&:not([data-hovered])]:text-[#0a0a0a]",
+                "data-[selected]:rounded-none data-[selection-end]:rounded-e-lg data-[selection-start]:rounded-s-lg data-[selected]:bg-white/15 data-[selected]:text-white data-[selection-end]:[&:not([data-hovered])]:bg-white data-[selection-start]:[&:not([data-hovered])]:bg-white data-[selection-end]:[&:not([data-hovered])]:text-background data-[selection-start]:[&:not([data-hovered])]:text-background",
               date.compare(now) === 0 &&
                 cn(
                   "after:pointer-events-none after:absolute after:bottom-1 after:start-1/2 after:z-10 after:size-[3px] after:-translate-x-1/2 after:rounded-full after:bg-white",
                   isRange
-                    ? "data-[selection-end]:[&:not([data-hovered])]:after:bg-[#0a0a0a] data-[selection-start]:[&:not([data-hovered])]:after:bg-[#0a0a0a]"
-                    : "data-[selected]:after:bg-[#0a0a0a]",
+                    ? "data-[selection-end]:[&:not([data-hovered])]:after:bg-background data-[selection-start]:[&:not([data-hovered])]:after:bg-background"
+                    : "data-[selected]:after:bg-background",
                 ),
             )}
           />

@@ -18,7 +18,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="kontakt" className="py-24 bg-[#1a1a1a] relative">
+    <section id="kontakt" className="py-24 bg-card relative">
       <div className="container mx-auto px-4 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6"
           >
-            <Mail className="w-8 h-8 text-[#7a5a4a] mb-4" />
+            <Mail className="w-8 h-8 text-[#c9950a] mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">E-Mail</h3>
             <div className="flex items-center gap-2">
               {/* ── DEINE E-MAIL ── */}
@@ -58,7 +58,7 @@ export default function ContactSection() {
                 aria-label="E-Mail kopieren"
               >
                 {copied === "email" ? (
-                  <Check className="w-4 h-4 text-green-400" />
+                  <Check className="w-4 h-4 text-[#c9950a]" />
                 ) : (
                   <Copy className="w-4 h-4 text-white/40" />
                 )}
@@ -74,7 +74,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6"
           >
-            <Phone className="w-8 h-8 text-[#7a5a4a] mb-4" />
+            <Phone className="w-8 h-8 text-[#c9950a] mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Telefon</h3>
             <div className="flex items-center gap-2">
               {/* ── DEINE TELEFONNUMMER ── */}
@@ -90,7 +90,7 @@ export default function ContactSection() {
                 aria-label="Telefon kopieren"
               >
                 {copied === "phone" ? (
-                  <Check className="w-4 h-4 text-green-400" />
+                  <Check className="w-4 h-4 text-[#c9950a]" />
                 ) : (
                   <Copy className="w-4 h-4 text-white/40" />
                 )}
@@ -106,7 +106,7 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6"
           >
-            <MapPin className="w-8 h-8 text-[#7a5a4a] mb-4" />
+            <MapPin className="w-8 h-8 text-[#c9950a] mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">Adresse</h3>
             {/* ── DEINE ADRESSE ── */}
             <p className="text-white/80 text-sm leading-relaxed">

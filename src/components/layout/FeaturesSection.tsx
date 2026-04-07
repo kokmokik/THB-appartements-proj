@@ -1,25 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { MapPin, Star, HeartHandshake, LucideIcon } from "lucide-react";
 
-const features = [
+const features: { icon: LucideIcon; title: string; description: string }[] = [
   {
-    icon: "📍",
+    icon: MapPin,
     title: "Beste Lage",
     description: "Zentral gelegen mit bester Anbindung an öffentliche Verkehrsmittel und Sehenswürdigkeiten.",
   },
-  {
-    icon: "🛋️",
-    title: "Vollständig eingerichtet",
-    description: "Bezugsfertige Unterkünfte mit hochwertigen Möbeln und allem, was Sie brauchen.",
-  },
-  {
-    icon: "⭐",
+{
+    icon: Star,
     title: "Höchster Komfort",
     description: "Modernes Ambiente mit gemütlicher Atmosphäre — damit Sie sich wie zu Hause fühlen.",
   },
   {
-    icon: "🤝",
+    icon: HeartHandshake,
     title: "Persönlicher Service",
     description: "Wir sind jederzeit für Sie da und sorgen dafür, dass Ihr Aufenthalt perfekt wird.",
   },
@@ -27,7 +23,7 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="py-24 bg-[#0a0a0a] relative overflow-hidden">
+    <section className="py-24 bg-background relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#2a2a2a_0%,transparent_70%)] opacity-30" />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -45,7 +41,7 @@ export default function FeaturesSection() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -55,7 +51,7 @@ export default function FeaturesSection() {
               viewport={{ once: true }}
               className="bg-white/[0.03] backdrop-blur-sm border border-white/[0.08] rounded-2xl p-6 hover:bg-white/[0.05] transition-all"
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
+              <div className="mb-4"><feature.icon className="w-8 h-8 text-[#c9950a]" /></div>
               <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
               <p className="text-white/60 text-sm leading-relaxed">{feature.description}</p>
             </motion.div>

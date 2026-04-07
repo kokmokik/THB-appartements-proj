@@ -18,14 +18,14 @@ export default async function ConfirmationPage({ searchParams }: Props) {
 
   if (!session_id) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <AlertCircle className="mx-auto text-red-400 mb-4" size={48} />
           <h1 className="text-2xl font-bold text-white mb-4">Keine Buchung gefunden</h1>
           <p className="text-white/50 mb-8">Es wurde keine gültige Buchungssitzung gefunden.</p>
           <Link
             href="/"
-            className="px-6 py-3 rounded-xl bg-white text-[#0a0a0a] font-semibold hover:bg-white/90 transition-all"
+            className="px-6 py-3 rounded-xl bg-white text-background font-semibold hover:bg-white/90 transition-all"
           >
             Zur Startseite
           </Link>
@@ -53,7 +53,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
 
   if (!booking || !property) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <CheckCircle className="mx-auto text-green-400 mb-4" size={48} />
           <h1 className="text-2xl font-bold text-white mb-4">Vielen Dank für Ihre Buchung!</h1>
@@ -62,7 +62,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
           </p>
           <Link
             href="/"
-            className="px-6 py-3 rounded-xl bg-white text-[#0a0a0a] font-semibold hover:bg-white/90 transition-all"
+            className="px-6 py-3 rounded-xl bg-white text-background font-semibold hover:bg-white/90 transition-all"
           >
             Zur Startseite
           </Link>
@@ -72,7 +72,7 @@ export default async function ConfirmationPage({ searchParams }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-2xl">
         <div className="mb-8">
           <Link

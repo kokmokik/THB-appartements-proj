@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1a1a1a] border-t border-white/[0.08] text-white mt-auto">
+    <footer className="bg-card border-t border-white/[0.08] text-white mt-auto">
       <Container className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
@@ -23,21 +23,19 @@ export default function Footer() {
             <ul className="space-y-3 text-gray-400 text-sm">
               {/* ── DEINE ADRESSE ── */}
               <li className="flex items-center gap-2">
-                <MapPin size={16} className="text-[#7a5a4a] shrink-0" />
-                <span>Deine Straße, PLZ Ort</span>
+                <MapPin size={16} className="text-[#c9950a] shrink-0" />
+                <span>Schwabenstrasse 13, 87640 Ebenhofen</span>
               </li>
-              {/* ── DEINE TELEFONNUMMER ── */}
               <li className="flex items-center gap-2">
-                <Phone size={16} className="text-[#7a5a4a] shrink-0" />
-                <a href="tel:+49XXXXXXXXXX" className="hover:text-white transition-colors">
-                  +49 XXX XXX XXXX
+                <Phone size={16} className="text-[#c9950a] shrink-0" />
+                <a href="tel:+4917624896524" className="hover:text-white transition-colors">
+                  +49 176 24896524
                 </a>
               </li>
-              {/* ── DEINE E-MAIL ── */}
               <li className="flex items-center gap-2">
-                <Mail size={16} className="text-[#7a5a4a] shrink-0" />
-                <a href="mailto:deine@email.de" className="hover:text-white transition-colors">
-                  deine@email.de
+                <Mail size={16} className="text-[#c9950a] shrink-0" />
+                <a href="mailto:info@thb-apartments.de" className="hover:text-white transition-colors">
+                  info@thb-apartments.de
                 </a>
               </li>
             </ul>
