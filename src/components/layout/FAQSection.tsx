@@ -19,6 +19,8 @@ const faqs = [
     answer:
       "Unsere Stornierungsbedingungen entnehmen Sie bitte dem jeweiligen Unterkunftsangebot. Bei Fragen helfen wir Ihnen gerne weiter.",
   },
+
+  
 ];
 
 export default function FAQSection() {
