@@ -47,13 +47,13 @@ export default function ContactSection() {
             <div className="flex items-center gap-2">
               {/* ── DEINE E-MAIL ── */}
               <a
-                href="mailto:deine@email.de"
+                href="mailto:info@thb-apartments.de"
                 className="text-white/80 hover:text-white transition-colors text-sm"
               >
-                deine@email.de
+                info@thb-apartments.de
               </a>
               <button
-                onClick={() => handleCopy("deine@email.de", "email")}
+                onClick={() => handleCopy("info@thb-apartments.de", "email")}
                 className="p-1 hover:bg-white/10 rounded transition-colors"
                 aria-label="E-Mail kopieren"
               >
@@ -79,13 +79,13 @@ export default function ContactSection() {
             <div className="flex items-center gap-2">
               {/* ── DEINE TELEFONNUMMER ── */}
               <a
-                href="tel:+49XXXXXXXXXX"
+                href="tel:+4917624896524"
                 className="text-white/80 hover:text-white transition-colors text-sm"
               >
-                +49 XXX XXX XXXX
+                +49 176 24896524
               </a>
               <button
-                onClick={() => handleCopy("+49XXXXXXXXXX", "phone")}
+                onClick={() => handleCopy("+4917624896524", "phone")}
                 className="p-1 hover:bg-white/10 rounded transition-colors"
                 aria-label="Telefon kopieren"
               >
@@ -110,9 +110,9 @@ export default function ContactSection() {
             <h3 className="text-xl font-semibold text-white mb-2">Adresse</h3>
             {/* ── DEINE ADRESSE ── */}
             <p className="text-white/80 text-sm leading-relaxed">
-              Deine Straße
+              Schwabenstrasse 13
               <br />
-              PLZ Ort
+              87640 Ebenhofen
             </p>
           </motion.div>
         </div>

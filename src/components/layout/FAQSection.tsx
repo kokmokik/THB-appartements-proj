@@ -5,16 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
-    question: "Was ist im Preis inbegriffen?",
-    answer:
-      "Der Preis beinhaltet Bettwäsche, Handtücher, WLAN und die Endreinigung. Zusätzliche Kosten (z. B. Strom) sind im Angebot angegeben.",
-  },
-  {
-    question: "Ab wann kann ich einchecken?",
-    answer:
-      "Der Check-in ist ab 15:00 Uhr möglich, der Check-out bis 11:00 Uhr. Auf Anfrage können wir frühere/spätere Zeiten arrangieren.",
-  },
-  {
     question: "Sind Haustiere erlaubt?",
     answer:
       "Kleine Haustiere sind nach vorheriger Absprache willkommen. Bitte kontaktieren Sie uns vor der Buchung.",
@@ -22,7 +12,7 @@ const faqs = [
   {
     question: "Wie funktioniert die Online-Buchung?",
     answer:
-      "Wählen Sie Ihre Unterkunft und Ihren Zeitraum, geben Sie Ihre Daten ein und zahlen Sie sicher per Kreditkarte oder Stripe. Sie erhalten eine Bestätigung per E-Mail.",
+      "Online Buchung ist für Ferienwohunungen verfügbar. Für dauerhaftes vermieten der Wohnungen werden sie in Kontakt mit dem Vermieter gebracht",
   },
   {
     question: "Was passiert bei einer Stornierung?",

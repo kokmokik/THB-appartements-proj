@@ -118,7 +118,7 @@ export default function HeroSection() {
 
           <motion.div {...fadeUpProps(2)}>
             <p className="text-base sm:text-lg md:text-xl text-white/40 mb-10 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-              Drei gemütliche Zimmer und zwei moderne Apartments — vollständig eingerichtet für einen unvergesslichen Aufenthalt.
+              Drei gemütliche Zimmer und zwei Apartments.
             </p>
           </motion.div>
 
