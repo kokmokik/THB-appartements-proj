@@ -21,7 +21,7 @@ class Particle {
   isKilled = false
 
   colorWeight = 0
-  colorBlendRate = 0.01
+  colorBlendRate = 0.008
 
   move() {
     const dx = this.pos.x - this.target.x
@@ -52,8 +52,7 @@ class Particle {
 
   draw(ctx: CanvasRenderingContext2D) {
     this.colorWeight = Math.min(this.colorWeight + this.colorBlendRate, 1.0)
-    const alpha = this.colorWeight
-    ctx.fillStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${alpha.toFixed(2)})`
+    ctx.fillStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${this.colorWeight.toFixed(3)})`
     ctx.fillRect(this.pos.x, this.pos.y, 2, 2)
   }
 }
@@ -69,14 +68,17 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
 
   const pixelSteps = 5
 
-  function buildParticles(canvas: HTMLCanvasElement) {
+  async function buildParticles(canvas: HTMLCanvasElement) {
+    // Wait for Montserrat to be ready before measuring/rendering
+    await document.fonts.load("bold 80px Montserrat")
+
     const offscreen = document.createElement("canvas")
     offscreen.width = canvas.width
     offscreen.height = canvas.height
     const octx = offscreen.getContext("2d")!
 
     octx.fillStyle = "white"
-    octx.font = `bold 80px Arial, sans-serif`
+    octx.font = "bold 80px Montserrat, sans-serif"
     octx.textAlign = "center"
     octx.textBaseline = "middle"
     octx.fillText(text, canvas.width / 2, canvas.height / 2)
@@ -88,7 +90,7 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
       if (pixels[i + 3] > 0) coords.push(i)
     }
 
-    // Shuffle for fluid incoming motion
+    // Shuffle for organic converging motion
     for (let i = coords.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[coords[i], coords[j]] = [coords[j], coords[i]]
@@ -100,16 +102,16 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
       const y = Math.floor(idx / 4 / canvas.width)
 
       const p = new Particle()
-      // Start from a random edge position
-      const angle = Math.random() * Math.PI * 2
-      const dist = (canvas.width + canvas.height) / 2
-      p.pos.x = canvas.width / 2 + Math.cos(angle) * dist
-      p.pos.y = canvas.height / 2 + Math.sin(angle) * dist
+
+      // Start scattered randomly INSIDE the canvas — no visible box edge
+      p.pos.x = Math.random() * canvas.width
+      p.pos.y = Math.random() * canvas.height
+
       p.target.x = x
       p.target.y = y
-      p.maxSpeed = Math.random() * 5 + 3
+      p.maxSpeed = Math.random() * 4 + 2
       p.maxForce = p.maxSpeed * 0.05
-      p.colorBlendRate = Math.random() * 0.02 + 0.005
+      p.colorBlendRate = Math.random() * 0.015 + 0.003
       particles.push(p)
     }
 
@@ -121,7 +123,7 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
     if (!canvas) return
     const ctx = canvas.getContext("2d")!
 
-    // Clear fully transparent — page background shows through
+    // Fully transparent — page background shows through seamlessly
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     for (const p of particlesRef.current) {
@@ -137,10 +139,9 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
     if (!canvas) return
 
     canvas.width = 1000
-    canvas.height = 160
+    canvas.height = 180
 
-    buildParticles(canvas)
-    animate()
+    buildParticles(canvas).then(() => animate())
 
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
@@ -151,7 +152,7 @@ export function ParticleTextEffect({ text = "THB APPARTEMENTS" }: ParticleTextEf
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: "100%", height: "auto", display: "block" }}
+      style={{ width: "100%", height: "auto", display: "block", background: "transparent" }}
     />
   )
 }
