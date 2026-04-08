@@ -13,8 +13,6 @@ interface HeroProperty {
   pricePerNight: number;
 }
 
-const HERO_WORDS = ["WILLKOMMEN", "KOMFORT", "APARTMENTS", "EBENHOFEN", "BUCHEN"]
-
 export default function HeroSection({ properties }: { properties: HeroProperty[] }) {
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center">
@@ -22,7 +20,7 @@ export default function HeroSection({ properties }: { properties: HeroProperty[]
 
         {/* Particle title — full width */}
         <div className="w-full mb-8 md:mb-10">
-          <ParticleTextEffect words={HERO_WORDS} />
+          <ParticleTextEffect text="THB APPARTEMENTS" />
         </div>
 
         {/* Badge + subtitle + buttons + property cards */}
