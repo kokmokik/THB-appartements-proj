@@ -53,6 +53,14 @@ export default function BookingForm({
 
   const today = startOfDay(new Date());
   const maxDate = addMonths(today, 12);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     async function loadBlockedDates() {
@@ -109,7 +117,7 @@ export default function BookingForm({
       {/* Date Picker */}
       <div>
         <h2 className="text-xl font-semibold text-white mb-4">Reisedaten wählen</h2>
-        <div className="flex justify-center overflow-x-auto">
+        <div className="w-full overflow-x-auto">
           <RangeCalendar
             value={dateRange}
             onChange={setDateRange}
@@ -123,9 +131,9 @@ export default function BookingForm({
                   d.getDate() === date.day,
               )
             }
-            visibleDuration={{ months: 2 }}
+            visibleDuration={{ months: isMobile ? 1 : 2 }}
             pageBehavior="visible"
-            className="border border-white/[0.08] rounded-xl p-4 bg-white/[0.03]"
+            className="border border-white/[0.08] rounded-xl p-3 sm:p-4 bg-white/[0.03] w-full"
           />
         </div>
       </div>

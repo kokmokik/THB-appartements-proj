@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { ADMIN_NAV_LINKS } from "@/lib/constants";
-import { LayoutDashboard, Calendar, BookOpen, LogOut, User } from "lucide-react";
+import { LayoutDashboard, Calendar, BookOpen, FileText, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const ICONS: Record<string, React.ElementType> = {
   "/admin": LayoutDashboard,
   "/admin/buchungen": BookOpen,
+  "/admin/mietanfragen": FileText,
   "/admin/kalender": Calendar,
 };
 

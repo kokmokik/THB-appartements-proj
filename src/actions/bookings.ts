@@ -5,6 +5,7 @@ import { stripe } from "@/lib/stripe";
 import { bookingFormSchema } from "@/lib/validations";
 import { checkAvailability } from "./availability";
 import { calculateNights } from "@/lib/utils";
+import { sendBookingConfirmation } from "@/lib/email";
 
 interface CreateBookingResult {
   success: boolean;

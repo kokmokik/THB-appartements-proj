@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BookingForm from "@/components/booking/BookingForm";
+import RentalInquiryForm from "@/components/booking/RentalInquiryForm";
 import { prisma } from "@/lib/db";
 
 interface Props {
@@ -35,18 +36,29 @@ export default async function BookingPage({ params }: Props) {
             ← Startseite
           </Link>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{property.name} buchen</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          {property.type === "apartment" ? `${property.name} mieten` : `${property.name} buchen`}
+        </h1>
         <p className="text-white/50 mb-10">
-          Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen.
+          {property.type === "apartment"
+            ? "Füllen Sie das Formular aus, um eine Mietanfrage zu senden. Wir melden uns für alle weiteren Details bei Ihnen."
+            : "Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen."}
         </p>
 
-        <BookingForm
-          propertyId={property.id}
-          propertySlug={property.slug}
-          propertyName={property.name}
-          pricePerNight={property.pricePerNight}
-          maxGuests={property.maxGuests}
-        />
+        {property.type === "apartment" ? (
+          <RentalInquiryForm
+            propertyId={property.id}
+            propertyName={property.name}
+          />
+        ) : (
+          <BookingForm
+            propertyId={property.id}
+            propertySlug={property.slug}
+            propertyName={property.name}
+            pricePerNight={property.pricePerNight}
+            maxGuests={property.maxGuests}
+          />
+        )}
       </div>
     </div>
   );

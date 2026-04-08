@@ -17,6 +17,7 @@ export const FOOTER_LINKS = [
 export const ADMIN_NAV_LINKS = [
   { label: "Dashboard", href: "/admin" },
   { label: "Buchungen", href: "/admin/buchungen" },
+  { label: "Mietanfragen", href: "/admin/mietanfragen" },
   { label: "Kalender", href: "/admin/kalender" },
 ] as const;
 
