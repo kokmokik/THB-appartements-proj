@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Circle, ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
+import { ParticleTextEffect } from "@/components/ui/particle-text-effect";
 
 interface HeroProperty {
   slug: string;
@@ -12,31 +13,30 @@ interface HeroProperty {
   pricePerNight: number;
 }
 
+const HERO_WORDS = ["WILLKOMMEN", "KOMFORT", "APARTMENTS", "EBENHOFEN", "BUCHEN"]
+
 export default function HeroSection({ properties }: { properties: HeroProperty[] }) {
   return (
-    <div className="min-h-screen bg-background flex items-center">
-      <div className="w-full container mx-auto px-4 md:px-6 py-16 md:py-24">
+    <div className="min-h-screen bg-background flex flex-col justify-center">
+      <div className="w-full container mx-auto px-4 md:px-6 py-12 md:py-20">
+
+        {/* Particle title — full width */}
+        <div className="w-full mb-8 md:mb-10">
+          <ParticleTextEffect words={HERO_WORDS} />
+        </div>
+
+        {/* Badge + subtitle + buttons + property cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-          {/* Left: text */}
+          {/* Left: badge + subtitle + buttons */}
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.10] mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.10] mb-5">
               <Circle className="h-2 w-2 fill-[#c9950a]/80 shrink-0" />
               <span className="text-sm text-white/60 tracking-wide">THB Appartements</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-5 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
-                Ihr perfekter
-              </span>
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#c9950a] via-[#e8c96a] to-[#a37808]">
-                Aufenthalt wartet
-              </span>
-            </h1>
-
             <p className="text-base sm:text-lg text-white/50 mb-8 leading-relaxed font-light max-w-md mx-auto lg:mx-0">
-              Drei gemütliche Zimmer und zwei Apartments.
+              Drei gemütliche Zimmer und zwei Apartments in Ebenhofen.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
