@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Circle, ArrowRight } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
-import { ParticleTextEffect } from "@/components/ui/particle-text-effect";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 interface HeroProperty {
   slug: string;
@@ -15,23 +15,28 @@ interface HeroProperty {
 
 export default function HeroSection({ properties }: { properties: HeroProperty[] }) {
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center">
-      <div className="w-full container mx-auto px-4 md:px-6 py-12 md:py-20">
+    <AuroraBackground className="min-h-screen">
+      {/* z-10 ensures all content sits above the aurora layer */}
+      <div className="relative z-10 w-full container mx-auto px-4 md:px-6 py-12 md:py-20">
 
-        {/* Particle title — full width */}
-        <div className="w-full mb-8 md:mb-10">
-          <ParticleTextEffect text="THB APPARTEMENTS" />
-        </div>
-
-        {/* Badge + subtitle + buttons + property cards */}
+        {/* Two-column grid: left = text, right = property cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-          {/* Left: badge + subtitle + buttons */}
+          {/* Left: title + badge + description + buttons */}
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.10] mb-5">
+
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.10] mb-4">
               <Circle className="h-2 w-2 fill-[#c9950a]/80 shrink-0" />
               <span className="text-sm text-white/60 tracking-wide">THB Appartements</span>
             </div>
+
+            {/* Title — Oswald, compact, right above the description */}
+            <h1
+              className="text-3xl md:text-4xl font-bold tracking-widest uppercase mb-3"
+              style={{ color: "rgb(212, 175, 55)", fontFamily: "var(--font-oswald)" }}
+            >
+              THB APPARTEMENTS
+            </h1>
 
             <p className="text-base sm:text-lg text-white/50 mb-8 leading-relaxed font-light max-w-md mx-auto lg:mx-0">
               Drei gemütliche Zimmer und zwei Apartments in Ebenhofen.
@@ -127,6 +132,6 @@ export default function HeroSection({ properties }: { properties: HeroProperty[]
           )}
         </div>
       </div>
-    </div>
+    </AuroraBackground>
   );
 }
