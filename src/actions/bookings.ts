@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { bookingFormSchema } from "@/lib/validations";
 import { checkAvailability } from "./availability";
 import { calculateNights } from "@/lib/utils";
-import { sendBookingConfirmation } from "@/lib/email";
+import { sendBookingConfirmation, sendAdminBookingNotification } from "@/lib/email";
 
 interface CreateBookingResult {
   success: boolean;
@@ -72,19 +72,24 @@ export async function createBooking(formData: {
       },
     });
 
+    const emailData = {
+      guestName: booking.guestName,
+      guestEmail: booking.guestEmail,
+      propertyName: property.name,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      guests: booking.guests,
+      totalPrice: booking.totalPrice,
+      bookingId: booking.id,
+    };
+
     try {
-      await sendBookingConfirmation({
-        guestName: booking.guestName,
-        guestEmail: booking.guestEmail,
-        propertyName: property.name,
-        checkIn: booking.checkIn,
-        checkOut: booking.checkOut,
-        guests: booking.guests,
-        totalPrice: booking.totalPrice,
-        bookingId: booking.id,
-      });
+      await Promise.all([
+        sendBookingConfirmation(emailData),
+        sendAdminBookingNotification(emailData),
+      ]);
     } catch (emailError) {
-      console.error("Failed to send confirmation email:", emailError);
+      console.error("Failed to send emails:", emailError);
     }
 
     return { success: true, bookingId: booking.id };

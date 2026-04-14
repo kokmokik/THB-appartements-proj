@@ -337,6 +337,150 @@ export async function sendRentalInquiry(data: RentalInquiryEmailData) {
   });
 }
 
+export async function sendAdminBookingNotification(data: BookingEmailData) {
+  const nights = calculateNights(data.checkIn, data.checkOut);
+  const adminEmail = process.env.ADMIN_EMAIL!;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8" /><title>Neue Buchungsanfrage</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f0;padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;max-width:600px;width:100%;">
+        <tr>
+          <td style="background:#1a1a2e;padding:28px 40px;text-align:center;">
+            <p style="margin:0;color:#c9a96e;font-size:13px;letter-spacing:3px;text-transform:uppercase;">THB Appartements · Admin</p>
+            <h1 style="margin:8px 0 0;color:#ffffff;font-size:22px;font-weight:normal;">Neue Buchungsanfrage</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:28px 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Gast</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;font-weight:bold;">${escapeHtml(data.guestName)}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">E-Mail</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;"><a href="mailto:${escapeHtml(data.guestEmail)}" style="color:#c9a96e;">${escapeHtml(data.guestEmail)}</a></p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Unterkunft</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${escapeHtml(data.propertyName)}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Zeitraum</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${formatDate(data.checkIn)} – ${formatDate(data.checkOut)} (${nights} ${nights === 1 ? "Nacht" : "Nächte"})</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Gäste</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${data.guests}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;">
+                <span style="color:#888;font-size:12px;">Gesamtpreis</span>
+                <p style="margin:3px 0 0;font-size:18px;color:#c9a96e;font-weight:bold;">${formatCurrency(data.totalPrice)}</p>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 40px 32px;text-align:center;">
+            <a href="${process.env.NEXTAUTH_URL}/admin/buchungen" style="display:inline-block;background:#1a1a2e;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:bold;">Im Admin öffnen</a>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`.trim();
+
+  await getResend().emails.send({
+    from: process.env.RESEND_FROM_EMAIL!,
+    to: adminEmail,
+    subject: `Neue Buchungsanfrage – ${data.propertyName}`,
+    html,
+  });
+}
+
+export async function sendAdminInquiryNotification(data: RentalInquiryEmailData) {
+  const adminEmail = process.env.ADMIN_EMAIL!;
+
+  const DURATION_LABELS: Record<string, string> = {
+    "6-monate": "6 Monate",
+    "1-jahr": "1 Jahr",
+    "2-jahre": "2 Jahre",
+    "unbefristet": "Unbefristet / nach Vereinbarung",
+  };
+
+  const html = `
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8" /><title>Neue Mietanfrage</title></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f0;padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;max-width:600px;width:100%;">
+        <tr>
+          <td style="background:#1a1a2e;padding:28px 40px;text-align:center;">
+            <p style="margin:0;color:#c9a96e;font-size:13px;letter-spacing:3px;text-transform:uppercase;">THB Appartements · Admin</p>
+            <h1 style="margin:8px 0 0;color:#ffffff;font-size:22px;font-weight:normal;">Neue Mietanfrage</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:28px 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Name</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;font-weight:bold;">${escapeHtml(data.name)}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">E-Mail</span>
+                <p style="margin:3px 0 0;font-size:15px;"><a href="mailto:${escapeHtml(data.email)}" style="color:#c9a96e;">${escapeHtml(data.email)}</a></p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Apartment</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${escapeHtml(data.propertyName)}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Gewünschter Einzug</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${formatDate(data.moveInDate)}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #f0f0f0;">
+                <span style="color:#888;font-size:12px;">Mietdauer</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${DURATION_LABELS[data.duration] || data.duration}</p>
+              </td></tr>
+              <tr><td style="padding:8px 0;${data.message ? "border-bottom:1px solid #f0f0f0;" : ""}">
+                <span style="color:#888;font-size:12px;">Personen</span>
+                <p style="margin:3px 0 0;font-size:15px;color:#1a1a2e;">${data.occupants}</p>
+              </td></tr>
+              ${data.message ? `<tr><td style="padding:8px 0;">
+                <span style="color:#888;font-size:12px;">Nachricht</span>
+                <p style="margin:3px 0 0;font-size:14px;color:#555;line-height:1.6;">${escapeHtml(data.message)}</p>
+              </td></tr>` : ""}
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 40px 32px;text-align:center;">
+            <a href="${process.env.NEXTAUTH_URL}/admin/mietanfragen" style="display:inline-block;background:#1a1a2e;color:#ffffff;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:bold;">Im Admin öffnen</a>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`.trim();
+
+  await getResend().emails.send({
+    from: process.env.RESEND_FROM_EMAIL!,
+    to: adminEmail,
+    subject: `Neue Mietanfrage – ${data.propertyName}`,
+    html,
+  });
+}
+
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, "&amp;")

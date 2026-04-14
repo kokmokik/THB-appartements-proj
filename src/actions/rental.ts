@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { sendRentalInquiry } from "@/lib/email";
+import { sendRentalInquiry, sendAdminInquiryNotification } from "@/lib/email";
 
 export interface CreateRentalInquiryResult {
   success: boolean;
@@ -55,7 +55,7 @@ export async function createRentalInquiry(formData: {
       },
     });
 
-    await sendRentalInquiry({
+    const inquiryData = {
       name: formData.name,
       email: formData.email,
       propertyName: property.name,
@@ -64,7 +64,12 @@ export async function createRentalInquiry(formData: {
       occupants: formData.occupants,
       message: formData.message,
       inquiryId: inquiry.id,
-    });
+    };
+
+    await Promise.all([
+      sendRentalInquiry(inquiryData),
+      sendAdminInquiryNotification(inquiryData),
+    ]);
 
     return { success: true, inquiryId: inquiry.id };
   } catch (error) {
