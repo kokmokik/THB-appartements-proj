@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
 export default async function AdminLayout({
@@ -8,12 +9,16 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-
-  // Login page has its own layout
-  const isLoginPage = false; // Layout doesn't apply to login page due to its own full-screen layout
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+  const isLoginPage = pathname === "/admin/login";
 
   if (!session && !isLoginPage) {
     redirect("/admin/login");
+  }
+
+  if (isLoginPage) {
+    return <>{children}</>;
   }
 
   return (
