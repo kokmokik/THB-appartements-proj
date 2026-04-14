@@ -42,7 +42,7 @@ export default async function BookingPage({ params }: Props) {
         <p className="text-white/50 mb-10">
           {property.type === "apartment"
             ? "Füllen Sie das Formular aus, um eine Mietanfrage zu senden. Wir melden uns für alle weiteren Details bei Ihnen."
-            : "Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus, um Ihre Buchung abzuschließen."}
+            : "Wählen Sie Ihre Reisedaten und füllen Sie das Formular aus. Wir melden uns zur Bestätigung bei Ihnen."}
         </p>
 
         {property.type === "apartment" ? (

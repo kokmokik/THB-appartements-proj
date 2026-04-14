@@ -1,7 +1,6 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { stripe } from "@/lib/stripe";
 import { bookingFormSchema } from "@/lib/validations";
 import { checkAvailability } from "./availability";
 import { calculateNights } from "@/lib/utils";
@@ -10,7 +9,6 @@ import { sendBookingConfirmation } from "@/lib/email";
 interface CreateBookingResult {
   success: boolean;
   error?: string;
-  checkoutUrl?: string;
   bookingId?: string;
 }
 
@@ -25,7 +23,6 @@ export async function createBooking(formData: {
   specialRequests?: string;
 }): Promise<CreateBookingResult> {
   try {
-    // Parse and validate
     const parsed = bookingFormSchema.safeParse({
       ...formData,
       checkIn: new Date(formData.checkIn),
@@ -38,7 +35,6 @@ export async function createBooking(formData: {
 
     const data = parsed.data;
 
-    // Get property
     const property = await prisma.property.findUnique({
       where: { id: data.propertyId },
     });
@@ -47,27 +43,19 @@ export async function createBooking(formData: {
       return { success: false, error: "Unterkunft nicht gefunden." };
     }
 
-    // Check guest count
     if (data.guests > property.maxGuests) {
       return { success: false, error: `Maximal ${property.maxGuests} Gäste erlaubt.` };
     }
 
-    // Check availability server-side
-    const { available } = await checkAvailability(
-      data.propertyId,
-      data.checkIn,
-      data.checkOut
-    );
+    const { available } = await checkAvailability(data.propertyId, data.checkIn, data.checkOut);
 
     if (!available) {
       return { success: false, error: "Die gewählten Daten sind leider nicht mehr verfügbar." };
     }
 
-    // Calculate price server-side
     const nights = calculateNights(data.checkIn, data.checkOut);
     const totalPrice = nights * property.pricePerNight;
 
-    // Create booking
     const booking = await prisma.booking.create({
       data: {
         propertyId: data.propertyId,
@@ -79,49 +67,27 @@ export async function createBooking(formData: {
         guestEmail: data.guestEmail,
         guestPhone: data.guestPhone,
         specialRequests: data.specialRequests || null,
-        status: "pending",
+        status: "confirmed",
         paymentStatus: "unpaid",
       },
     });
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      locale: "de",
-      currency: "eur",
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: `${property.name} - ${nights} Nächte`,
-              description: `Aufenthalt vom ${data.checkIn.toLocaleDateString("de-DE")} bis ${data.checkOut.toLocaleDateString("de-DE")}`,
-            },
-            unit_amount: Math.round(totalPrice * 100),
-          },
-          quantity: 1,
-        },
-      ],
-      metadata: {
+    try {
+      await sendBookingConfirmation({
+        guestName: booking.guestName,
+        guestEmail: booking.guestEmail,
+        propertyName: property.name,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        guests: booking.guests,
+        totalPrice: booking.totalPrice,
         bookingId: booking.id,
-        propertyId: property.id,
-      },
-      success_url: `${process.env.NEXTAUTH_URL}/buchung/bestaetigung?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/buchen/${property.slug}?cancelled=true`,
-    });
+      });
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError);
+    }
 
-    // Store Stripe session ID
-    await prisma.booking.update({
-      where: { id: booking.id },
-      data: { stripeSessionId: session.id },
-    });
-
-    return {
-      success: true,
-      checkoutUrl: session.url!,
-      bookingId: booking.id,
-    };
+    return { success: true, bookingId: booking.id };
   } catch (error) {
     console.error("Booking creation error:", error);
     return { success: false, error: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut." };

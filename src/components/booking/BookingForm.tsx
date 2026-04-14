@@ -104,8 +104,8 @@ export default function BookingForm({
       specialRequests: specialRequests || undefined,
     });
 
-    if (result.success && result.checkoutUrl) {
-      router.push(result.checkoutUrl);
+    if (result.success && result.bookingId) {
+      router.push(`/buchung/bestaetigung?booking_id=${result.bookingId}`);
     } else {
       setError(result.error || "Ein Fehler ist aufgetreten.");
       setLoading(false);
@@ -239,7 +239,7 @@ export default function BookingForm({
             <Spinner className="h-5 w-5" /> Wird verarbeitet...
           </span>
         ) : (
-          `Jetzt buchen – ${nights > 0 ? formatCurrency(totalPrice) : ""}`
+          `Anfrage senden – ${nights > 0 ? formatCurrency(totalPrice) : ""}`
         )}
       </Button>
     </form>

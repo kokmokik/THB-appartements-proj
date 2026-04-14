@@ -11,7 +11,7 @@ const faqs = [
   {
     question: "Wie funktioniert die Online-Buchung?",
     answer:
-      "Online Buchung ist für Ferienwohnungen verfügbar. Für dauerhaftes Vermieten der Wohnungen werden Sie in Kontakt mit dem Vermieter gebracht.",
+      "Wählen Sie Ihre gewünschte Unterkunft, tragen Sie Ihre Reisedaten und Kontaktdaten ein und senden Sie die Anfrage ab. Wir melden uns dann schnellstmöglich bei Ihnen zur Bestätigung.",
   },
   {
     question: "Was passiert bei einer Stornierung?",
